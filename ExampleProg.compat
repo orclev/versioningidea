@@ -1,0 +1,3 @@
+Version: 1.0.0
+Targets: ExampleMod 2.2.0
+Calls: ExampleMod foo bar

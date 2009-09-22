@@ -1,0 +1,7 @@
+Version: 2.4.2
+Module Compat: Full 2.4.0 && Partial 2.1.0
+Targets: Data.List 4.1.0.0
+Function: foo Full 2.1.0
+Function: bar Full 2.2.0
+Function: baz Full 2.4.0
+Function: narf Full 2.4.2

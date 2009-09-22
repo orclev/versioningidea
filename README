@@ -1,0 +1,38 @@
+Reverses the concept of versioning. Something that depends on a library provides a target version, and libraries provide compatability info.
+
+At the library level compatability info is provided via annotations at the module, type, and function levels.
+Any type of function that is un-annotated implicitly shares the compatability info of the containing module.
+A module need not have the same compatability as all of it's functions, but it should for most of them.
+Should support the concept of a partially compatible instance.
+A program that uses a module specifies a target version. All functions from that module used by the program
+are checked for compatability with the specified target version.
+Target info would be provided by both annotating a import statement, and most likely in something like a cabal package.
+
+Example:
+    Module A v2.4.2: Partial > 2.1.0 && Full > 2.4.0
+        Function1: Full > 2.1.0
+        Function2: Full > 2.2.0
+        Function3: Full > 2.4.0
+        Function4: Full > 2.4.2
+
+Compatible:
+    Program v1.0.0:
+        Modula A: Targets 2.2.0 <- Partially Compatible, check proceeds to per function targets
+            Function1: Targets 2.2.0
+            Function2: Targets 2.2.0
+
+Not Compatible:
+    Program v1.2.0:
+        Module A: Targets 2.2.0 <- Partially Compatible, check proceeds to per function targets
+            Function1: Targets 2.2.0
+            Function2: Targets 2.2.0
+            Function3: Targets 2.2.0 <-- No compatible instance available
+
+Issues:
+    Makes it hard to upgrade libraries to a definitely compatible version... you could always fetch the latest 
+version that's fully compatible, but there's a possibility a later partially compatible version could be used as
+well. Without running a per-function version check you can't tell though.
+
+Possible solutions:
+    Export the complete compatability data to an external file, E.G. ModuleA.compat, and likewise export target info.
+This allows a check of the compat files for all versions of a module to be executed given a target version.
