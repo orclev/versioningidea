@@ -13,7 +13,7 @@ Example:
         Function1: Full > 2.1.0
         Function2: Full > 2.2.0
         Function3: Full > 2.4.0
-        Function4: Full > 2.4.2
+        Function4: Full > 2.4.2 <-- In this example this is a new function, hence the module as a whole is still compatible with 2.4.0
 
 Compatible:
     Program v1.0.0:
