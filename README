@@ -1,5 +1,16 @@
 Reverses the concept of versioning. Something that depends on a library provides a target version, and libraries provide compatability info.
 
+The rationale behind this is that it's unfair on the consumer of a library to force them to keep track of something they have no control over,
+that is, changes to libraries they consume. Furthermore the consumer of the library may not be aware of all the changes that occur in a library
+going from one version to another, whereas presumably the author of the library (or the one doing the changes) is aware when they make a change
+that breaks compatability (in haskell this would typically be a change to a type signature of a function). The initial effort involved in
+annotating a library should be rather minimal (probably could make a utility to generate default annotations much like the -auto-all option
+for profiling annotations) and going from version to version should just be a matter of updating the annotated functions and types as you make
+changes to them. A compatability breaking change would be one where the type signature of a function changes, or the input or output of the function
+changes in a way that's inconsistent with the documented behavior. Bug fixes in general should not be compatability breaking changes, baring a major
+re-write of a function. At a minimum the Partial compatability of a module is the lowest version number any of its functions or types are compatable with
+and the Full compatability is the highest version number all of its functions and types are compatable with.
+
 At the library level compatability info is provided via annotations at the module, type, and function levels.
 Any type of function that is un-annotated implicitly shares the compatability info of the containing module.
 A module need not have the same compatability as all of it's functions, but it should for most of them.
